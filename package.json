@@ -1,0 +1,23 @@
+{
+  "name": "mesto-server",
+  "homepage": "./",
+  "version": "0.1.0",
+  "description": "Project 12",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "nodemon": "^2.0.4"
+  },
+  "author": "Vitaliy Maksimov",
+  "license": "ISC"
+}
