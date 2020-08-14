@@ -1,20 +1,20 @@
 const usersRouter = require('express').Router();
 const path = require('path');
-const fs = require('fs').promises;
+const getFile = require('../helpers/readJson');
 
 const users = path.join(__dirname, '../data/user.json');
 usersRouter.get('/', (req, res) => {
-  fs.readFile(users, { encoding: 'utf8' })
+  getFile(users)
     .then((data) => JSON.parse(data))
     .then((result) => {
       res.send(result);
     })
     .catch((err) => {
-      res.status(500).send({ error: err.toString() });
+      res.status(500).send({ message: err.toString() });
     });
 });
 usersRouter.get('/:id', (req, res) => {
-  fs.readFile(users, { encoding: 'utf8' })
+  getFile(users)
     .then((data) => JSON.parse(data))
     .then((result) => {
       const user = result.find((item) => item._id === req.params.id);
@@ -25,7 +25,7 @@ usersRouter.get('/:id', (req, res) => {
       res.send(user);
     })
     .catch((err) => {
-      res.status(500).send({ error: err.toString() });
+      res.status(500).send({ message: err.toString() });
     });
 });
 
