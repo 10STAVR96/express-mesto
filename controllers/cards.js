@@ -14,6 +14,12 @@ module.exports.postCards = (req, res) => {
 };
 module.exports.deleteCardById = (req, res) => {
   Card.findByIdAndRemove(req.params.id)
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      if (!card) {
+        res.status(404).send({ message: 'Ошибка: такой карточки нет' });
+        return;
+      }
+      res.send({ data: card });
+    })
     .catch((err) => errors(err, res));
 };
