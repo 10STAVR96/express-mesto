@@ -13,13 +13,28 @@ module.exports.postCards = (req, res) => {
     .catch((err) => errors(err, res));
 };
 module.exports.deleteCardById = (req, res) => {
-  Card.findByIdAndRemove(req.params.id)
-    .then((card) => {
-      if (!card) {
-        res.status(404).send({ message: 'Ошибка: такой карточки нет' });
-        return;
-      }
-      res.send({ data: card });
-    })
+  Card.deleteOne({ _id: req.params.id })
+    .orFail({ message: 'Ошибка: карточки с таким id не существует', code: 404 })
+    .then((card) => res.send({ data: card }))
+    .catch((err) => errors(err, res));
+};
+module.exports.likeCard = (req, res) => {
+  Card.findByIdAndUpdate(
+    req.params.cardId,
+    { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
+    { new: true },
+  )
+    .orFail({ message: 'Ошибка: карточки с таким id не существует', code: 404 })
+    .then((user) => res.send({ data: user }))
+    .catch((err) => errors(err, res));
+};
+module.exports.dislikeCard = (req, res) => {
+  Card.findByIdAndUpdate(
+    req.params.cardId,
+    { $pull: { likes: req.user._id } }, // убрать _id из массива
+    { new: true },
+  )
+    .orFail({ message: 'Ошибка: карточки с таким id не существует', code: 404 })
+    .then((user) => res.send({ data: user }))
     .catch((err) => errors(err, res));
 };

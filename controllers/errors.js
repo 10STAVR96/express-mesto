@@ -1,9 +1,5 @@
 function errors(err, res) {
-  if (!err.message) {
-    res.status(500).send({ message: 'Ошибка сервера' });
-    return;
-  }
-  res.status(400).send({ message: err.message });
+  res.status((err.message) ? (err.code || 400) : 500).send({ message: err.message || 'Ошибка на сервере' });
 }
 
 module.exports = errors;
